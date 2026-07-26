@@ -1,0 +1,49 @@
+// Declarative pipeline Syntax
+
+pipeline {
+// All the code will be written in this block
+
+agent {
+    // agent = a VM / a node/docker container
+    // this is a mandatory section
+    // In this section we will write name of VM where we have to run the pipeline
+    // for now our agent is the current Jenkins Server
+}
+
+tools{
+   // It is optional section 
+   // In this section we will write name of tools that pipleine will use to exeucte the commands 
+   // these tools are configures in Jenkins Settings->tools 
+}
+
+stages{
+// it is mandatory 
+// names of jobs to be executed
+
+stage('fetch code'){
+
+    steps{
+        // write the commands to be exeucted
+    }
+
+}
+stage('Build Code'){
+    steps{
+        // write the build commands
+    }
+}
+stage('Deploy') {
+    steps{
+        // write the Deploy commands
+    }
+}
+
+}
+
+
+
+
+
+
+
+}
