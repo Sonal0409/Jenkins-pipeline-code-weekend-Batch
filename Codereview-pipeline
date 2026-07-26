@@ -1,0 +1,30 @@
+pipeline{
+    agent any // current VM We will run this pipeline 
+// any is a keyword of jenkins
+// right now i just have current VM == any 
+
+    tools{
+        maven 'mymaven'
+    }
+    stages{
+        stage('Clone the repo'){
+            steps{
+            git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+
+            }
+        }
+        stage('Review the code'){
+            steps{
+
+             sh   'mvn pmd:pmd'   // pmd.xml
+                
+            }  
+            post{   // post success of the steps
+               success{
+                 recordIssues sourceCodeRetention: 'LAST_BUILD', tools: [pmdParser(pattern: '**/pmd.xml')]  
+               } 
+
+            }
+        }
+    }
+}
