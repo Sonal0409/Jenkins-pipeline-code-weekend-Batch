@@ -1,0 +1,23 @@
+pipeline{
+    agent any
+
+    
+    parameters{  // declare the parameters/variables
+       string (name: 'tool', defaultValue: 'Docker', description: 'Tool name')
+       number (name: 'build_number', defaultValue: 1, description: 'Build number')
+       choices (name: 'environment', choices: ['dev', 'qa', 'prod'], description: 'Select environment')
+       secretText (name: 'password', defaultValue: '', description: 'Enter password')
+    }
+    
+    stages{
+        stage('Print variable values'){
+            steps{
+                echo "Tool name is ${params.tool}"
+                echo "Build number is ${params.build_number}"
+                echo "Environment is ${params.environment}"
+                echo "Password is ${params.password}"
+            }
+        }
+       
+    }
+}
