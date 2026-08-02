@@ -14,9 +14,11 @@ pipeline {
         stage('Review Code'){
             steps{
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                sh 'mvn pmd:pmd'  
+                    retry (3){
+                sh 'mvn pmd:Pmd'  
                 // Risky code, which may fail, 
                 // but we want to catch the error and continue the pipeline
+                    }
             }
         }
     }
@@ -24,7 +26,9 @@ pipeline {
             steps{
 
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                retry (3){
                 sh 'mvn Test'
+                }
               }
             }
         }
