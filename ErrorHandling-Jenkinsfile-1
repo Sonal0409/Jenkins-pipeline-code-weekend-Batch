@@ -1,0 +1,43 @@
+// Error Handling 
+
+pipeline {
+    agent any
+    tools{
+        maven 'mymaven'
+    }
+    stages{
+        stage('Clone the Repo'){
+            steps{
+                git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+            }
+        }
+        stage('Review Code'){
+            steps{
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    retry (3){
+                sh 'mvn pmd:Pmd'  
+                // Risky code, which may fail, 
+                // but we want to catch the error and continue the pipeline
+                    }
+            }
+        }
+    }
+           stage('Test Code'){
+            steps{
+
+              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                retry (3){
+                sh 'mvn Test'
+                }
+              }
+            }
+        }
+        stage('Build Code'){
+            steps{
+                sh 'mvn package'  // Build the code using Maven
+            }
+        }
+
+    }
+
+}
